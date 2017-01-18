@@ -1,0 +1,19 @@
+{
+  "name": "hevelop/module-facebookpixel",
+  "description": "Adds Facebook Pixel with Dynamic Ads code on appropriate pages. Passes W3C validation. Easy to install and use.",
+  "type": "magento2-module",
+  "version": "2.1.0",
+  "license": [
+    "OSL-3.0"
+  ],
+  "require": {
+    "php": "~5.5|~7.0",
+    "magento/framework": "*"
+  },
+  "autoload": {
+    "files": [ "registration.php" ],
+    "psr-4": {
+      "Hevelop\\FacebookPixel\\": ""
+    }
+  }
+}

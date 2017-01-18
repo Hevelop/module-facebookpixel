@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category  Hevelop
+ * @package   Hevelop_FacebookPixel
+ * @author    Hevelop
+ * @copyright Copyright (c) 2016 Hevelop (http://hevelop.com)
+ * @license   http://opensource.org/licenses/osl-3.0.php Open Software License
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="hevelop_extensions" translate="label" sortOrder="1">
+            <label>Hevelop Extensions</label>
+        </tab>
+        <section id="hevelop_facebookpixel" translate="label" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Facebook Pixel</label>
+            <tab>hevelop_extensions</tab>
+            <resource>Hevelop_FacebookPixel::config_system</resource>
+            <group id="about" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>About</label>
+                <frontend_model>Hevelop\FacebookPixel\Block\Adminhtml\About</frontend_model>
+            </group>
+            <group id="general" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>General</label>
+                <field id="enabled" translate="label comment" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enabled</label>
+                    <comment>Enables or disables extension.</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="pixel_id" translate="label comment" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Facebook Pixel ID</label>
+                    <comment>Your Facebook Pixel ID.</comment>
+                    <validate>required-entry</validate>
+                    <backend_model>Hevelop\FacebookPixel\Model\Config\PixelId</backend_model>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="product_catalog_id" translate="label comment" type="text" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Product Catalog ID</label>
+                    <comment>Your Facebook Product Catalog ID.</comment>
+                    <validate>required-entry</validate>
+                    <backend_model>Hevelop\FacebookPixel\Model\Config\ProductCatalogId</backend_model>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="catalog_id_attribute_code" translate="label comment" type="select" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Attribute used as product ID</label>
+                    <comment>Your Attribute ID used on Facebook Catalog.</comment>
+                    <validate>required-entry</validate>
+                    <source_model>Hevelop\FacebookPixel\Model\Config\Source\Attribute</source_model>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

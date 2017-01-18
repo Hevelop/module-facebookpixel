@@ -1,0 +1,27 @@
+<?php
+/**
+ * @category  Hevelop
+ * @package   Hevelop_FacebookPixel
+ * @author    Hevelop
+ * @copyright Copyright (c) 2016 Hevelop (http://hevelop.com)
+ * @license   http://opensource.org/licenses/osl-3.0.php Open Software License
+ */
+
+/**
+ * Facebook Pixel Purchase block used in checkout_onepage_success action
+ *
+ * @var $block \Hevelop\FacebookPixel\Block\Purchase
+ */
+
+$orderData = $block->getOrderData();
+if ($orderData !== null) :?>
+fbq('track', 'Purchase', {
+<?php if (array_key_exists('content_name', $orderData)) : ?>
+    content_name: '<?php echo $block->escapeHtml($orderData['content_name'])?>',
+<?php endif; ?>
+    content_ids: [<?php echo $block->escapeHtml($orderData['content_ids']) ?>],
+    content_type: 'product',
+    value: <?php echo $block->escapeHtml($orderData['value']) ?>,
+    currency: '<?php echo $block->escapeHtml($orderData['currency']) ?>'
+});
+<?php endif; ?>

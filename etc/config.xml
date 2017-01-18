@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category  Hevelop
+ * @package   Hevelop_FacebookPixel
+ * @author    Hevelop
+ * @copyright Copyright (c) 2016 Hevelop (http://hevelop.com)
+ * @license   http://opensource.org/licenses/osl-3.0.php Open Software License
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <hevelop_facebookpixel>
+            <general>
+                <enabled>0</enabled>
+                <pixel_id>123456789012345</pixel_id>
+                <product_catalog_id>123456789012345</product_catalog_id>
+            </general>
+        </hevelop_facebookpixel>
+    </default>
+</config>

@@ -1,0 +1,120 @@
+<?php
+/**
+ * @category  Hevelop
+ * @package   Hevelop_FacebookPixel
+ * @author    Hevelop
+ * @copyright Copyright (c) 2016 Hevelop (http://hevelop.com)
+ * @license   http://opensource.org/licenses/osl-3.0.php Open Software License
+ */
+
+// @codingStandardsIgnoreFile
+
+/**
+ * Facebook Pixel Code block
+ *
+ * @var $block \Hevelop\FacebookPixel\Block\Code
+ */
+
+$data = $block->getFacebookPixelData();
+$id = $data['id'];
+$product_catalog_id = $data['product_catalog_id'];
+$action = $data['full_action_name'];
+
+?>
+
+<!-- Facebook Pixel Code -->
+<script>
+  !function (f, b, e, v, n, t, s) {
+    if (f.fbq)return;
+    n = f.fbq = function () {
+      n.callMethod ?
+        n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+    };
+    if (!f._fbq) f._fbq = n;
+    n.push = n;
+    n.loaded = !0;
+    n.version = '2.0';
+    n.queue = [];
+    t = b.createElement(e);
+    t.async = !0;
+    t.src = v;
+    s = b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t, s)
+  }(window,
+    document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
+
+  fbq('init', '<?php echo $block->escapeHtml($id) ?>');
+  fbq('track', "PageView");
+
+  <?php if ($action == 'cms_index_index') : ?>
+  fbq('track', 'ViewContent');
+  <?php elseif ($action == 'cms_page_view') : ?>
+  fbq('track', 'ViewContent');
+  <?php elseif ($action == 'catalog_category_view') : ?>
+  <?php
+  $categoryData = $block->getCategoryData();
+  if ($categoryData !== null) : ?>
+  fbq('track', 'ViewContent', {
+    product_catalog_id: '<?php echo $block->escapeHtml($product_catalog_id)?>',
+    content_category: '<?php echo $block->escapeHtml($categoryData['content_category']) ?>',
+    content_ids: ['<?php echo $block->escapeHtml($categoryData['content_ids']) ?>'],
+    content_type: '<?php echo $block->escapeHtml($categoryData['content_type']) ?>'
+  });
+  <?php endif; ?>
+  <?php elseif ($action == 'catalog_product_view') : ?>
+  <?php
+  $productData = $block->getProductData();
+  if ($productData !== null) : ?>
+  fbq('track', 'ViewContent', {
+    product_catalog_id: '<?php echo $block->escapeHtml($product_catalog_id)?>',
+    content_name: '<?php echo $block->escapeHtml($productData['content_name']) ?>',
+    content_ids: ['<?php echo $block->escapeHtml($productData['content_ids']) ?>'],
+    content_type: 'product',
+    value: <?php echo $block->escapeHtml($productData['value']) ?>,
+    currency: '<?php echo $block->escapeHtml($productData['currency']) ?>'
+  });
+  <?php if(false):?>
+  //Add Pixel Events to the button's click handler
+  if (typeof jQuery != 'undefined') {
+    jQuery('#product-addtocart-button').click(function () {
+      fbq('track', 'AddToCart', {
+        content_name: '<?php echo $block
+            ->escapeHtml($productData['content_name']) ?>',
+        content_ids: ['<?php echo $block
+            ->escapeHtml($productData['content_ids']) ?>'],
+        content_type: 'product',
+        value: <?php echo $block->escapeHtml($productData['value']) ?>,
+        currency: '<?php
+            echo $block->escapeHtml($productData['currency']) ?>'
+      });
+    });
+  }
+  <?php endif; ?>
+  <?php endif; ?>
+  <?php elseif ($action == 'catalogsearch_result_index'
+  || $action == 'catalogsearch_advanced_result') : ?>
+  fbq('track', 'Search');
+  <?php elseif ($action == 'customer_account_create') : ?>
+  fbq('track', 'CompleteRegistration');
+  <?php elseif ($action == 'checkout_index_index'
+  || $action == 'onestepcheckout_index_index'
+  || $action == 'opc_index_index') : ?>
+  fbq('track', 'InitiateCheckout');
+  <?php elseif ($action == 'checkout_onepage_success') : ?>
+  <?php
+  echo $block->getChildHtml(
+      'hevelop.facebookpixel.checkout.success.purchase'
+  );
+  ?>
+  <?php //elseif ($action == 'wishlist_index_index') : ?>
+  //  fbq('track', 'AddToWishlist');
+  <?php endif; ?>
+
+</script>
+<noscript>
+    <img height="1" width="1" style="display:none" alt="Facebook Pixel"
+         src="https://www.facebook.com/tr?id=<?php
+         echo $block->escapeHtml($id) ?>&ev=PageView&noscript=1"
+    />
+</noscript>
+<!-- End Facebook Pixel Code -->
